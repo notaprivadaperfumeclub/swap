@@ -519,6 +519,18 @@
         <input type="file" id="f-foto" accept="image/*" style="display:none" onchange="previewPhoto(this)">
       </div>
       <div class="form-group">
+          <label class="form-label">Tamaño del frasco <span class="req">*</span></label>
+          <select id="f-tamano">
+            <option value="">Seleccioná el tamaño</option>
+            <option>30 ml</option>
+            <option>50 ml</option>
+            <option>60 ml</option>
+            <option>80 ml</option>
+            <option>100 ml</option>
+            <option>Otro</option>
+          </select>
+        </div>
+      <div class="form-group">
         <label class="form-label">Contenido restante</label>
         <div class="slider-wrap">
           <input type="range" min="5" max="100" step="5" value="75" id="f-fill"
