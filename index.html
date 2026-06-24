@@ -556,6 +556,8 @@
         <option value="">Todas las familias</option>
         <option>Amaderado</option><option>Floral</option><option>Oriental</option>
         <option>Cítrico</option><option>Aromático</option><option>Gourmand</option><option>Acuático</option>
+      <option>Chipre</option>
+      <option>Fougère</option>
       </select>
       <select id="f-modalidad" onchange="renderCards()">
         <option value="">Personal o por correo</option>
@@ -597,7 +599,7 @@
           <input type="text" id="f-ofrezco" placeholder="Nombre del perfume">
         </div>
         <div class="form-group">
-          <label class="form-label">Casa <span class="req">*</span></label>
+          <label class="form-label">Casa o marca <span class="req">*</span></label>
           <input type="text" id="f-casa" placeholder="Ej: Le Labo">
         </div>
       </div>
@@ -635,6 +637,8 @@
         <select id="f-fam">
           <option>Amaderado</option><option>Floral</option><option>Oriental</option>
           <option>Cítrico</option><option>Aromático</option><option>Gourmand</option><option>Acuático</option>
+        <option>Chipre</option>
+        <option>Fougère</option>
         </select>
       </div>
       <div class="form-group">
@@ -643,7 +647,7 @@
       </div>
       <div class="form-group">
         <label class="form-label">Modalidad de intercambio</label>
-        <select id="f-modal"><option>Personal</option><option>Por correo</option></select>
+        <select id="f-modal"><option>Cualquiera</option><option>Personal</option><option>Por correo</option></select>
       </div>
       <button class="btn-submit" id="btn-submit" onclick="publicar()">Publicar intercambio</button>
       <div class="success-msg" id="success-msg">✓ ¡Publicado! Aparecerá en el listado en unos segundos.</div>
@@ -689,7 +693,7 @@ async function loadListings() {
 function updateStats() {
   const disp = listings.filter(l => String(l.done) !== 'true').length;
   const done = listings.filter(l => String(l.done) === 'true').length;
-  const cities = new Set(listings.filter(l => String(l.done) !== 'true').map(l => l.ciudad)).size;
+  const cities = new Set(listings.filter(l => String(l.done) !== 'true').map(l => (l.ciudad||'').toLowerCase().trim())).size;
   document.getElementById('stat-disp').textContent = disp;
   document.getElementById('stat-done').textContent = done;
   document.getElementById('stat-cities').textContent = cities;
