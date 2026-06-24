@@ -427,9 +427,94 @@
       .form-row { grid-template-columns: 1fr; }
       .np-body { padding: 1.2rem 1rem; }
     }
-  </style>
+  
+    .code-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(10,10,20,0.85);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+    }
+    .code-modal.active { display: flex; }
+    .code-box {
+      background: var(--cream);
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      max-width: 360px;
+      width: 90%;
+      text-align: center;
+      border: 0.5px solid var(--border);
+    }
+    .code-box img { width: 64px; margin-bottom: 1rem; }
+    .code-box h2 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 22px;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .code-box p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    .code-box p a {
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .code-input {
+      width: 100%;
+      font-size: 18px;
+      font-family: "Raleway", sans-serif;
+      padding: 12px;
+      border: 0.5px solid rgba(26,26,46,0.2);
+      border-radius: 10px;
+      text-align: center;
+      letter-spacing: 0.1em;
+      background: #fff;
+      color: var(--ink);
+      margin-bottom: 12px;
+      outline: none;
+    }
+    .code-input:focus { border-color: var(--gold); }
+    .code-input.error { border-color: #c0392b; }
+    .code-error {
+      font-size: 12px;
+      color: #c0392b;
+      margin-bottom: 12px;
+      display: none;
+    }
+    .btn-code {
+      width: 100%;
+      padding: 12px;
+      background: var(--ink);
+      color: #f5f0e8;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-family: "Cormorant Garamond", serif;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .btn-code:hover { opacity: 0.85; }
+</style>
 </head>
 <body>
+
+<div class="code-modal" id="code-modal">
+  <div class="code-box">
+    <h2>Código de acceso</h2>
+    <p>Para publicar un intercambio necesitás un código.<br>
+    Escribinos por DM a <a href="https://www.instagram.com/notaprivada.perfumeclub/" target="_blank">@notaprivada.perfumeclub</a> para obtenerlo.</p>
+    <input type="text" class="code-input" id="code-input" placeholder="Ingresá el código" autocomplete="off">
+    <div class="code-error" id="code-error">Código incorrecto. Escribinos por DM.</div>
+    <button class="btn-code" onclick="verificarCodigo()">Ingresar</button>
+  </div>
+</div>
 
 <header class="np-header">
   <div class="np-logo-wrap">
@@ -769,6 +854,40 @@ function resetForm() {
 }
 
 loadListings();
+
+const ACCESS_CODE = 'PERFUMELOVER';
+let accesoVerificado = false;
+
+function pedirCodigo() {
+  if (accesoVerificado) {
+    showView('publicar');
+    return;
+  }
+  document.getElementById('code-modal').classList.add('active');
+  document.getElementById('code-input').value = '';
+  document.getElementById('code-error').style.display = 'none';
+  document.getElementById('code-input').classList.remove('error');
+  setTimeout(() => document.getElementById('code-input').focus(), 100);
+}
+
+function verificarCodigo() {
+  const input = document.getElementById('code-input').value.trim();
+  if (input.toUpperCase() === ACCESS_CODE.toUpperCase()) {
+    accesoVerificado = true;
+    document.getElementById('code-modal').classList.remove('active');
+    showView('publicar');
+  } else {
+    document.getElementById('code-input').classList.add('error');
+    document.getElementById('code-error').style.display = 'block';
+  }
+}
+
+// Permitir Enter en el input
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('code-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') verificarCodigo();
+  });
+});
 </script>
 <script>
 if ('serviceWorker' in navigator) {
