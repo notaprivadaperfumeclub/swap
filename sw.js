@@ -1,4 +1,4 @@
-const CACHE_NAME = 'np-swap-v1';
+const CACHE_NAME = 'np-swap-v2';
 const urlsToCache = [
   '/swap/',
   '/swap/index.html',
