@@ -1054,11 +1054,18 @@ function ingresarApp() {
   const input = document.getElementById('welcome-input').value.trim();
   if (input.toUpperCase() === ACCESS_CODE.toUpperCase()) {
     accesoVerificado = true;
+    localStorage.setItem('np_acceso', ACCESS_CODE);
     document.getElementById('welcome-screen').classList.add('hidden');
   } else {
     document.getElementById('welcome-input').classList.add('error');
     document.getElementById('welcome-error').style.display = 'block';
   }
+}
+
+// Verificar si ya ingresó antes
+if (localStorage.getItem('np_acceso') === ACCESS_CODE) {
+  accesoVerificado = true;
+  document.getElementById('welcome-screen').classList.add('hidden');
 }
 
 document.getElementById('welcome-input').addEventListener('keydown', e => {
