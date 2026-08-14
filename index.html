@@ -552,10 +552,10 @@
     
   </div>
   <nav class="np-nav">
-    <button class="active" onclick="showView('explorar')">
+    <button class="active" onclick="pedirCodigoExplorar()">
       <i class="ti ti-search"></i> Explorar
     </button>
-    <button onclick="pedirCodigo()">
+    <button onclick="showView('publicar')">
       <i class="ti ti-plus"></i> Publicar intercambio
     </button>
   </nav>
@@ -816,8 +816,11 @@ async function publicar() {
   const busco = document.getElementById('f-busco').value.trim();
   const modalidad = document.getElementById('f-modal').value;
 
+  const apellido = document.getElementById('f-apellido').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+  const celular = document.getElementById('f-celular').value.trim();
   const tamano = document.getElementById('f-tamano').value;
-  if (!nombre || !ig || !ciudad || !ofrezco || !casa || !tamano) {
+  if (!nombre || !apellido || !email || !ig || !ciudad || !ofrezco || !casa || !tamano) {
     showError('Por favor completá todos los campos obligatorios (*).');
     return;
   }
@@ -848,7 +851,7 @@ async function publicar() {
 
   // 2. Guardar en Sheet
   const params = new URLSearchParams({
-    action: 'add', nombre, ig, ciudad, pais, ofrezco, casa,
+    action: 'add', nombre, apellido, email, celular, ig, ciudad, pais, ofrezco, casa,
     fill: String(fill), familia, busco, modalidad, tamano, foto: fotoUrl
   });
 
@@ -875,7 +878,7 @@ function showError(msg) {
 
 function resetForm() {
   document.getElementById('f-tamano').value = '';
-  ['f-nombre','f-ig','f-ciudad','f-pais','f-ofrezco','f-casa','f-busco'].forEach(id => {
+  ['f-nombre','f-apellido','f-email','f-celular','f-ig','f-ciudad','f-pais','f-ofrezco','f-casa','f-busco'].forEach(id => {
     document.getElementById(id).value = '';
   });
   document.getElementById('f-fill').value = 75;
@@ -904,9 +907,9 @@ document.addEventListener('keydown', e => {
 const ACCESS_CODE = 'PERFUMEFAN';
 let accesoVerificado = false;
 
-function pedirCodigo() {
+function pedirCodigoExplorar() {
   if (accesoVerificado) {
-    showView('publicar');
+    showView('explorar');
     return;
   }
   document.getElementById('code-modal').classList.add('active');
@@ -921,7 +924,7 @@ function verificarCodigo() {
   if (input.toUpperCase() === ACCESS_CODE.toUpperCase()) {
     accesoVerificado = true;
     document.getElementById('code-modal').classList.remove('active');
-    showView('publicar');
+    showView('explorar');
   } else {
     document.getElementById('code-input').classList.add('error');
     document.getElementById('code-error').style.display = 'block';
