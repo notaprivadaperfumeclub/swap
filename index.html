@@ -975,23 +975,27 @@ function showView(v) {
 }
 
 async function publicar() {
-  const nombre = document.getElementById('f-nombre').value.trim();
-  const ig = document.getElementById('f-ig').value.trim();
-  const ciudad = document.getElementById('f-ciudad').value.trim();
-  const pais = document.getElementById('f-pais').value.trim();
-  const ofrezco = document.getElementById('f-ofrezco').value.trim();
-  const casa = document.getElementById('f-casa').value.trim();
-  const fill = parseInt(document.getElementById('f-fill').value);
-  const familia = document.getElementById('f-fam').value;
-  const busco = document.getElementById('f-busco').value.trim();
-  const modalidad = document.getElementById('f-modal').value;
+  const nombre = (document.getElementById('f-nombre') || {value:''}).value.trim();
+  const apellido = (document.getElementById('f-apellido') || {value:''}).value.trim();
+  const email = (document.getElementById('f-email') || {value:''}).value.trim();
+  const celular = (document.getElementById('f-celular') || {value:''}).value.trim();
+  const ig = (document.getElementById('f-ig') || {value:''}).value.trim();
+  const ciudad = (document.getElementById('f-ciudad') || {value:''}).value.trim();
+  const pais = (document.getElementById('f-pais') || {value:''}).value.trim();
+  const ofrezco = (document.getElementById('f-ofrezco') || {value:''}).value.trim();
+  const casa = (document.getElementById('f-casa') || {value:''}).value.trim();
+  const fill = parseInt((document.getElementById('f-fill') || {value:'75'}).value);
+  const familia = (document.getElementById('f-fam') || {value:''}).value;
+  const busco = (document.getElementById('f-busco') || {value:''}).value.trim();
+  const modalidad = (document.getElementById('f-modal') || {value:''}).value;
+  const tamano = (document.getElementById('f-tamano') || {value:''}).value;
 
-  const apellido = document.getElementById('f-apellido').value.trim();
-  const email = document.getElementById('f-email').value.trim();
-  const celular = document.getElementById('f-celular').value.trim();
-  const tamano = document.getElementById('f-tamano').value;
   if (!nombre || !apellido || !email || !ig || !ciudad || !ofrezco || !casa || !tamano) {
     showError('Por favor completá todos los campos obligatorios (*).');
+    return;
+  }
+  if (!email.includes('@')) {
+    showError('El email no parece válido.');
     return;
   }
   if (!photoBase64) {
@@ -1026,7 +1030,7 @@ async function publicar() {
   });
 
   try {
-    await fetch(SCRIPT_URL + '?' + params.toString());
+    await fetch(SCRIPT_URL + '?' + params.toString(), { mode: 'no-cors' });
   } catch(e) {}
 
   document.getElementById('success-msg').style.display = 'block';
