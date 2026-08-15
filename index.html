@@ -1120,6 +1120,13 @@ function confirmarDatos() {
   }
 
   datosUsuario = { nombre, apellido, email, celular };
+
+  // Copiar automáticamente al formulario de publicación
+  if (document.getElementById('f-nombre')) document.getElementById('f-nombre').value = nombre;
+  if (document.getElementById('f-apellido')) document.getElementById('f-apellido').value = apellido;
+  if (document.getElementById('f-email')) document.getElementById('f-email').value = email;
+  if (document.getElementById('f-celular')) document.getElementById('f-celular').value = celular;
+
   document.getElementById('datos-modal').classList.remove('active');
   showView('publicar');
 }
